@@ -84,12 +84,6 @@ Este repositório contém a proposta orçamentária detalhada para a infraestrut
 | EFS Infrequent Access | -$0.15 | -$1.80 |
 | **Total** | **-$90.51** | **-$1.086,12** |
 
-## 📁 Arquivos
-
-- **`PROPOSTA_ORCAMENTARIA_NEXTCLOUD.html`** - Proposta completa em HTML
-- **`DOCUMENTACAO_COMPLETA(1).html`** - Documentação técnica detalhada
-- **`ANALISE_PAYBACK_ROI.html`** - Análise de retorno de investimento
-- **`Screenshot from 2025-11-04 15-23-12.png`** - Diagrama de arquitetura
 
 ## 🔧 Processo de Migração
 
