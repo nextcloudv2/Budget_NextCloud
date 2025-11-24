@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposta Orçamentária - Nextcloud AWS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6; 
+            color: #333; 
+            background: linear-gradient(135deg, #ffffff 0%, #ffffff 100%);
+            padding: 2rem;
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            background: white; 
+            box-shadow: 0 10px 50px rgba(0,0,0,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        header { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            padding: 3rem 2rem; 
+            text-align: center;
+            border-bottom: 5px solid #ffd700;
+        }
+        header h1 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        header p { font-size: 1.2rem; opacity: 0.95; }
+        .info-box {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            margin: 2rem;
+            border-left: 5px solid #667eea;
+            border-radius: 5px;
+        }
+        .info-box h3 { color: #667eea; margin-bottom: 1rem; }
+        main { padding: 2rem; }
+        section { margin-bottom: 3rem; }
+        h2 { 
+            font-size: 1.8rem; 
+            color: #667eea; 
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #667eea;
+        }
+        h3 { font-size: 1.4rem; color: #764ba2; margin: 1.5rem 0 1rem 0; }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 1.5rem 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td { 
+            padding: 1rem; 
+            text-align: left; 
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white; 
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        tbody tr:hover { background: #f8f9fa; }
+        tbody tr:last-child td { border-bottom: none; }
+        .total-row {
+            background: #fff3cd !important;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .total-final {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%) !important;
+            color: white !important;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        .badge { 
+            display: inline-block; 
+            padding: 0; 
+            border-radius: 0; 
+            font-size: 1rem; 
+            font-weight: 600;
+            margin: 0 0.5rem 0 0;
+        }
+        .badge-success { background: transparent; color: inherit; }
+        .badge-warning { background: transparent; color: inherit; }
+        .badge-info { background: transparent; color: inherit; }
+        .badge-primary { background: transparent; color: inherit; }
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+            border: 2px solid #667eea;
+        }
+        .price { 
+            color: #28a745; 
+            font-weight: bold; 
+            font-size: 1.1rem;
+        }
+        .savings {
+            color: #28a745;
+            font-weight: bold;
+        }
+        footer { 
+            background: #2c3e50; 
+            color: white; 
+            padding: 2rem; 
+            text-align: center;
+        }
+        .chart-container {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 Proposta Orçamentária</h1>
+            <p>Infraestrutura Nextcloud na AWS</p>
+            <p style="font-size: 0.95rem; margin-top: 1rem; opacity: 0.9;">
+                Análise Detalhada de Custos | Novembro 2025
+            </p>
+        </header>
+
+        <div class="info-box">
+            <h3>📋 Informações do Projeto</h3>
+            <p><strong>Cliente:</strong> Henrylle Maia</p>
+            <p><strong>Projeto:</strong> Nextcloud Version 2</p>
+            <p><strong>Região AWS:</strong> us-east-1 (Norte da Virgínia)</p>
+            <p><strong>Domínio:</strong> nextcloud.cloud.flog.br</p>
+            <p><strong>Repositório:</strong> <a href="https://github.com/nextcloudv2" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">🔗 github.com/nextcloudv2</a></p>
+            <p><strong>Data da Entrega:</strong> 26 de Novembro de 2025</p>
+        </div>
+
+        <main>
+            <section>
+                <h2>📋 Visão Geral do Projeto</h2>
+                
+                <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 2rem; border-radius: 10px; margin: 1.5rem 0; border: 2px solid #667eea;">
+                    <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 1.5rem; color: #333;">
+                        Solução completa de <strong>armazenamento em nuvem privada</strong> utilizando Nextcloud hospedado na 
+                        infraestrutura <strong>Amazon Web Services (AWS)</strong>, garantindo segurança, escalabilidade e alta disponibilidade.
+                    </p>
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center;">
+                        <h3 style="color: #667eea; margin-bottom: 1rem;">🌐 Acesso ao Sistema</h3>
+                        <a href="https://nextcloud.cloud.flog.br/login" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-size: 1.1rem; font-weight: bold; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); transition: transform 0.2s;">
+                            🔗 https://nextcloud.cloud.flog.br/login
+                        </a>
+                        <p style="margin-top: 1rem; color: #666; font-size: 0.95rem;">
+                            <strong>Status:</strong> <span style="color: #28a745; font-weight: bold;">✅ Online e Operacional</span>
+                        </p>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">☁️</div>
+                            <h4 style="color: #667eea; font-size: 0.95rem; margin-bottom: 0.3rem;">Armazenamento</h4>
+                            <p style="color: #666; font-size: 0.9rem;">Nuvem Privada</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔒</div>
+                            <h4 style="color: #667eea; font-size: 0.95rem; margin-bottom: 0.3rem;">Segurança</h4>
+                            <p style="color: #666; font-size: 0.9rem;">SSL/TLS + WAF</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚡</div>
+                            <h4 style="color: #667eea; font-size: 0.95rem; margin-bottom: 0.3rem;">Disponibilidade</h4>
+                            <p style="color: #666; font-size: 0.9rem;">99.99% SLA</p>
+                        </div>
+                        
+                        <div style="background: white; padding: 1rem; border-radius: 8px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.08);">
+                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📈</div>
+                            <h4 style="color: #667eea; font-size: 0.95rem; margin-bottom: 0.3rem;">Escalabilidade</h4>
+                            <p style="color: #666; font-size: 0.9rem;">Auto Scaling</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎯 Resumo Executivo</h2>
+                
+                <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 2rem; border-radius: 10px; margin: 1.5rem 0; border: 2px solid #667eea;">
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem; color: #333;">
+                        Esta proposta apresenta uma análise detalhada dos custos mensais da infraestrutura Nextcloud hospedada na AWS. 
+                        A solução atual utiliza serviços gerenciados da AWS para garantir alta disponibilidade, segurança e escalabilidade.
+                    </p>
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <h3 style="color: #667eea; margin-bottom: 1rem;">💡 Destaques da Infraestrutura</h3>
+                        <ul style="margin-left: 2rem; margin-top: 1rem; line-height: 2;">
+                            <li><span class="badge badge-success">✅</span> <strong>2 Instâncias EC2 t3.large</strong> em execução (Alta Disponibilidade)</li>
+                            <li><span class="badge badge-success">✅</span> <strong>RDS Aurora PostgreSQL</strong> (db.t4g.medium)</li>
+                            <li><span class="badge badge-success">✅</span> <strong>Application Load Balancer</strong> com SSL/TLS</li>
+                            <li><span class="badge badge-success">✅</span> <strong>EFS</strong> para storage persistente (~931 MB em uso)</li>
+                            <li><span class="badge badge-success">✅</span> <strong>Route53</strong> para gerenciamento DNS</li>
+                            <li><span class="badge badge-success">✅</span> <strong>CloudWatch</strong> para monitoramento e logs</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>� Análise de Payback e ROI</h2>
+                
+                <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 2rem; border-radius: 10px; margin: 1.5rem 0; border: 2px solid #667eea;">
+                    <h3 style="color: #667eea; text-align: center; margin-bottom: 1.5rem;">🎯 Comparativo: Infraestrutura Antiga vs Nova</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Métrica</th>
+                                <th>Infraestrutura Antiga (2020-2025)</th>
+                                <th>Nova Infraestrutura (2025)</th>
+                                <th>Economia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Custo Mensal</strong></td>
+                                <td style="color: #dc3545; font-weight: bold;">$640.00</td>
+                                <td style="color: #28a745; font-weight: bold;">$263.31</td>
+                                <td style="color: #28a745; font-weight: bold;">-$376.69 (58.9%)</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Custo Anual</strong></td>
+                                <td style="color: #dc3545; font-weight: bold;">$7,680.00</td>
+                                <td style="color: #28a745; font-weight: bold;">$3,159.72</td>
+                                <td style="color: #28a745; font-weight: bold;">-$4,520.28 (58.9%)</td>
+                            </tr>
+                            <tr style="background: #fff3cd;">
+                                <td><strong>Recursos Principais</strong></td>
+                                <td>
+                                    • 1x EC2 m5.2xlarge (8 vCPU, 32GB)<br>
+                                    • 500 GB EBS gp2<br>
+                                    • PostgreSQL na EC2<br>
+                                    • Sem redundância
+                                </td>
+                                <td>
+                                    • 2x EC2 t3.large (Multi-AZ)<br>
+                                    • 160 GB EBS gp3<br>
+                                    • RDS Aurora PostgreSQL<br>
+                                    • ALB + Auto Scaling
+                                </td>
+                                <td>
+                                    <div style="line-height: 2.2;">
+                                        <span class="badge badge-success">✅</span> Alta Disponibilidade<br>
+                                        <span class="badge badge-success">✅</span> Backup Automático<br>
+                                        <span class="badge badge-success">✅</span> Downtime Minimo
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="background: #e8eaf6;">
+                                <td><strong>Problemas Resolvidos</strong></td>
+                                <td>
+                                    <div style="line-height: 2.2;">
+                                        <span class="badge badge-warning">❌</span> Perda de dados<br>
+                                        <span class="badge badge-warning">❌</span> Downtime em upgrades<br>
+                                        <span class="badge badge-warning">❌</span> Acesso SSH direto<br>
+                                        <span class="badge badge-warning">❌</span> Sem Auto Scaling
+                                    </div>
+                                </td>
+                                <td>
+                                    <div style="line-height: 2.2;">
+                                        <span class="badge badge-success">✅</span> Point-in-time recovery<br>
+                                        <span class="badge badge-success">✅</span> Manutenção<br>
+                                        <span class="badge badge-success">✅</span> Session Manager<br>
+                                        <span class="badge badge-success">✅</span> Auto Scaling ativo
+                                    </div>
+                                </td>
+                                <td style="text-align: center; vertical-align: middle;">
+                                    <div style="font-size: 2rem; color: #28a745;">💎</div>
+                                    <strong style="color: #28a745;">Melhor Infraestrutura<br>+ Menor Custo</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #9b5bdb 100%); padding: 1.5rem; border-radius: 10px; text-align: center; margin-top: 1.5rem; box-shadow: 0 3px 15px rgba(0,0,0,0.2);">
+                        <h3 style="color: #fff; margin-bottom: 0.5rem;">🚀 Economia Total Anual</h3>
+                        <div style="font-size: 2.5rem; font-weight: bold; color: #fff; text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
+                            $4,520.28
+                        </div>
+                        <p style="color: #fff; font-size: 1.1rem; margin-top: 0.5rem;">
+                            <strong>Redução de 58.9% nos custos anuais</strong><br>
+                            <span style="font-size: 0.95rem;">Equivalente a R$ 24.861,54/ano (cotação R$ 5,50)</span>
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>🌐 Estratégia de Migração com Global Database</h2>
+                
+                <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 2rem; border-radius: 10px; margin: 1.5rem 0; border: 2px solid #667eea;">
+                    <h3 style="color: #667eea; margin-bottom: 1.5rem;">📊 Arquitetura de Migração</h3>
+                    
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        A migração da infraestrutura Nextcloud foi realizada utilizando <strong>AWS Global Database</strong>, 
+                        uma estratégia avançada que permite replicação entre regiões com latência inferior a 1 segundo, 
+                        garantindo <strong>Downtime Minimo</strong> durante o processo transição.
+                    </p>
+
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <h4 style="color: #667eea; margin-bottom: 1rem;">🔄 Processo de Migração</h4>
+                        
+                        <table style="width: 100%; margin-top: 1rem;">
+                            <thead>
+                                <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                                    <th style="color: white; padding: 0.8rem;">Fase</th>
+                                    <th style="color: white; padding: 0.8rem;">Atividade</th>
+                                    <th style="color: white; padding: 0.8rem;">Duração</th>
+                                    <th style="color: white; padding: 0.8rem;">Downtime</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 0.8rem;"><strong>1. Preparação</strong></td>
+                                    <td style="padding: 0.8rem;">Setup Global Database + Replicação inicial</td>
+                                    <td style="padding: 0.8rem;">2-3 horas</td>
+                                    <td style="padding: 0.8rem; color: #28a745; font-weight: bold;">0 min</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.8rem;"><strong>2. Sincronização</strong></td>
+                                    <td style="padding: 0.8rem;">Replicação contínua de dados</td>
+                                    <td style="padding: 0.8rem;">Contínuo</td>
+                                    <td style="padding: 0.8rem; color: #28a745; font-weight: bold;">0 min</td>
+                                </tr>
+                                <tr style="background: #f8f9fa;">
+                                    <td style="padding: 0.8rem;"><strong>3. Validação</strong></td>
+                                    <td style="padding: 0.8rem;">Testes de integridade e performance</td>
+                                    <td style="padding: 0.8rem;">1-2 horas</td>
+                                    <td style="padding: 0.8rem; color: #28a745; font-weight: bold;">0 min</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 0.8rem;"><strong>4. Cutover</strong></td>
+                                    <td style="padding: 0.8rem;">Mudança de DNS + Promoção de região + Configurações</td>
+                                    <td style="padding: 0.8rem;"> 15 minutos</td>
+                                    <td style="padding: 0.8rem; color: #ffc107; font-weight: bold;">15 min</td>
+                                </tr>
+                                <tr style="background: #e8eaf6;">
+                                    <td colspan="3" style="padding: 0.8rem;"><strong>TOTAL</strong></td>
+                                    <td style="padding: 0.8rem; color: #28a745; font-weight: bold; font-size: 1.1rem;">15 min</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    
+
+                    
+                    
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; text-align: center;">
+                        <img src="Screenshot from 2025-11-04 15-23-12.png" alt="Arquitetura Global Database" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 1rem;">
+                        
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background: white; padding: 1.2rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                            <h4 style="color: #667eea; margin-bottom: 0.5rem;">✅ Vantagens</h4>
+                            <ul style="margin-left: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                                <li>Downtime Minimo</li>
+                                <li>Rollback instantâneo</li>
+                                <li>Dados sempre sincronizados</li>
+                                <li>Sem perda de transações</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.2rem; border-radius: 8px; border-left: 4px solid #17a2b8;">
+                            <h4 style="color: #17a2b8; margin-bottom: 0.5rem;">📈 Métricas</h4>
+                            <ul style="margin-left: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                                <li>Latência: &lt;1 segundo</li>
+                                <li>RPO: ~1 segundo</li>
+                                <li>RTO: ~2 minutos</li>
+                                <li>Disponibilidade: 99.99%</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.2rem; border-radius: 8px; border-left: 4px solid #667eea;">
+                            <h4 style="color: #667eea; margin-bottom: 0.5rem;">🔧 Tecnologias</h4>
+                            <ul style="margin-left: 1.5rem; font-size: 0.95rem; line-height: 1.6;">
+                                <li>Aurora Global Database</li>
+                                <li>Route53 Health Checks</li>
+                                <li>EFS Replication</li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>� Processo Técnico de Migração</h2>
+                
+                <div style="background: linear-gradient(135deg, #17a2b815 0%, #13849615 100%); padding: 2rem; border-radius: 10px; margin: 1.5rem 0; border: 2px solid #17a2b8;">
+                    <h3 style="color: #17a2b8; margin-bottom: 1.5rem;">⚙️ Etapas Técnicas da Migração para Virgínia</h3>
+                    
+                    <p style="font-size: 1.05rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                        A migração da infraestrutura Nextcloud de São Paulo (sa-east-1) para Virgínia (us-east-1) 
+                        foi executada seguindo uma estratégia técnica robusta, garantindo zero perda de dados e 
+                        downtime mínimo de apenas 15 minutos.
+                    </p>
+
+                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                        <h4 style="color: #17a2b8; margin-bottom: 1rem;">📋 Passos Executados (Ordem Cronológica)</h4>
+                        
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #764ba2; border-radius: 4px;">
+                            <h5 style="color: #764ba2; margin-bottom: 0.5rem;">1️⃣ Migração do Banco de Dados (PostgreSQL → Aurora RDS)</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                <strong>Situação Inicial:</strong> PostgreSQL rodando dentro da EC2 junto com a aplicação<br><br>
+                                <strong>Processo de Migração:</strong><br>
+                                • Criação de <strong>snapshot/backup completo</strong> do PostgreSQL na EC2<br>
+                                • Dump do banco de dados usando <code>pg_dump</code><br>
+                                • Provisionamento de <strong>Aurora RDS PostgreSQL</strong> em sa-east-1<br>
+                                • <strong>Restore</strong> dos dados no Aurora RDS usando <code>pg_restore</code><br>
+                                • Validação de integridade e consistência dos dados<br>
+                                • Testes de conectividade e performance
+                            </p>
+                        </div>
+
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #667eea; border-radius: 4px;">
+                            <h5 style="color: #667eea; margin-bottom: 0.5rem;">2️⃣ Preparação do Storage (EFS)</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                • Criação de <strong>EFS em sa-east-1</strong> (São Paulo) para dados e configurações existentes<br>
+                                • Migração dos dados da EC2 para o EFS em São Paulo<br>
+                                • Criação de novo <strong>EFS em us-east-1</strong> (Virgínia)<br>
+                                • Configuração de <strong>VPC Peering</strong> entre sa-east-1 e us-east-1<br>
+                                • <strong>Replicação inicial</strong> dos dados (~931 MB) via rsync através do VPC Peering<br>
+                                • Sincronização contínua durante o período de transição
+                            </p>
+                        </div>
+
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #667eea; border-radius: 4px;">
+                            <h5 style="color: #667eea; margin-bottom: 0.5rem;">3️⃣ Containerização e Registry (ECR)</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                • Criação de repositório <strong>ECR (Elastic Container Registry)</strong> em us-east-1<br>
+                                • Build da imagem Docker do Nextcloud com todas as dependências<br>
+                                • Push da imagem para o ECR com versionamento e tags<br>
+                                • Configuração de cross-region replication para backup<br>
+                                • Scan automático de vulnerabilidades nas imagens
+                            </p>
+                        </div>
+
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #ffc107; border-radius: 4px;">
+                            <h5 style="color: #ffc107; margin-bottom: 0.5rem;">4️⃣ Orquestração (ECS with EC2)</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                • Criação de <strong>ECS Cluster</strong> em us-east-1<br>
+                                • Definição de <strong>Task Definition</strong> com configurações de CPU, memória e volumes<br>
+                                • Configuração de <strong>ECS Service</strong> com Auto Scaling (2-10 tasks)<br>
+                                • Montagem do EFS (Virgínia) nas tasks para persistência de dados<br>
+                                • Health checks e rolling updates configurados
+                            </p>
+                        </div>
+
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #20c997; border-radius: 4px;">
+                            <h5 style="color: #20c997; margin-bottom: 0.5rem;">5️⃣ Replicação Global do Banco de Dados</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                <em>Executado após o ECS estar operacional</em><br><br>
+                                • Setup de <strong>Aurora Global Database</strong> com região primária em sa-east-1<br>
+                                • Adição de us-east-1 como região secundária com replicação automática<br>
+                                • Latência de replicação &lt;1 segundo garantida<br>
+                                • Validação de sincronização dos dados entre regiões<br>
+                                • Testes de failover e recuperação
+                            </p>
+                        </div>
+
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #dc3545; border-radius: 4px;">
+                            <h5 style="color: #dc3545; margin-bottom: 0.5rem;">6️⃣ Segurança e Secrets</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                • Migração de credenciais para <strong>AWS Secrets Manager</strong><br>
+                                • Configuração de secrets para conexão com banco de dados<br>
+                                • Rotação automática de senhas habilitada<br>
+                                • IAM Roles com princípio de menor privilégio<br>
+                                • Criptografia em trânsito (TLS) e em repouso (KMS)
+                            </p>
+                        </div>
+
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #6f42c1; border-radius: 4px;">
+                            <h5 style="color: #6f42c1; margin-bottom: 0.5rem;">7️⃣ Proteção com WAF</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                • Implementação de <strong>AWS WAF</strong> no Application Load Balancer<br>
+                                • Regras para proteção contra SQL Injection e XSS<br>
+                                • Rate limiting para prevenir DDoS<br>
+                                • Geo-blocking e IP whitelisting configurados<br>
+                                • Logs de segurança integrados ao CloudWatch
+                            </p>
+                        </div>
+
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #0dcaf0; border-radius: 4px;">
+                            <h5 style="color: #0dcaf0; margin-bottom: 0.5rem;">8️⃣ CI/CD Pipeline (CodePipeline + CodeBuild)</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                <em>Implementado após o WAF estar configurado</em><br><br>
+                                • Criação de <strong>CodePipeline</strong> para automação de deploys<br>
+                                • Configuração de <strong>CodeBuild</strong> para build automático das imagens<br>
+                                • Integração com GitHub para trigger automático em commits<br>
+                                • Stages: Source → Build → Deploy → Validation<br>
+                                • Rollback automático em caso de falha nos health checks<br>
+                                • Notificações via SNS para status do pipeline
+                            </p>
+                        </div>
+
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #198754; border-radius: 4px;">
+                            <h5 style="color: #198754; margin-bottom: 0.5rem;">9️⃣ Infrastructure as Code (Terraform)</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                • Toda infraestrutura versionada em <strong>repositório Git</strong><br>
+                                • Código <strong>Terraform</strong> modularizado por componente (VPC, ECS, RDS, ALB, etc)<br>
+                                • State file armazenado no S3 com lock no DynamoDB<br>
+                                • Ambientes separados (dev, staging, production)<br>
+                                • Facilita replicação, rollback e disaster recovery<br>
+                                • Documentação automática da infraestrutura<br>
+                                • Reparos e atualizações simplificados via código
+                            </p>
+                        </div>
+
+                        <div style="margin: 1rem 0; padding: 1rem; background: #f8f9fa; border-left: 4px solid #fd7e14; border-radius: 4px;">
+                            <h5 style="color: #fd7e14; margin-bottom: 0.5rem;">🔟 Cutover Final</h5>
+                            <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
+                                • Sincronização final dos dados do EFS<br>
+                                • <strong>Switchover</strong> do Aurora promovendo us-east-1 como região primária<br>
+                                • Atualização dos registros DNS no <strong>Route53</strong><br>
+                                • Validação de conectividade e funcionalidades<br>
+                                • Testes end-to-end da aplicação<br>
+                                • Monitoramento intensivo pós-migração (24h)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
+                        <div style="background: white; padding: 1.2rem; border-radius: 8px; border-left: 4px solid #667eea; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #667eea; margin-bottom: 0.5rem;">✅ Tecnologias Utilizadas</h4>
+                            <ul style="margin-left: 1.5rem; font-size: 0.9rem; line-height: 1.8;">
+                                <li><strong>Terraform</strong> - Infrastructure as Code</li>
+                                <li><strong>EFS</strong> - Storage persistente</li>
+                                <li><strong>VPC Peering</strong> - Replicação de dados</li>
+                                <li><strong>Aurora Global DB</strong> - Banco de dados</li>
+                                <li><strong>ECR</strong> - Container registry</li>
+                                <li><strong>CodePipeline</strong> - CI/CD automation</li>
+                                <li><strong>CodeBuild</strong> - Build automation</li>
+                                <li><strong>ECS</strong> - Orquestração</li>
+                                <li><strong>Secrets Manager</strong> - Credenciais</li>
+                                <li><strong>WAF</strong> - Proteção de aplicação</li>
+                                <li><strong>Route53</strong> - DNS management</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.2rem; border-radius: 8px; border-left: 4px solid #17a2b8; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #17a2b8; margin-bottom: 0.5rem;">🎯 Resultados Alcançados</h4>
+                            <ul style="margin-left: 1.5rem; font-size: 0.9rem; line-height: 1.8;">
+                                <li>Downtime de apenas <strong>15 minutos</strong></li>
+                                <li>Zero perda de dados na migração</li>
+                                <li>Banco separado da aplicação (RDS)</li>
+                                <li>Redução de <strong>57.4%</strong> nos custos</li>
+                                <li>Alta disponibilidade (99.99%)</li>
+                                <li>Segurança aprimorada com WAF</li>
+                                <li>Auto Scaling configurado</li>
+                                <li>CI/CD pipeline automatizado</li>
+                                <li>Infraestrutura versionada (IaC)</li>
+                                <li>Backup automático habilitado</li>
+                                <li>Monitoramento 24/7 ativo</li>
+                                <li>Reparos simplificados via Terraform</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.2rem; border-radius: 8px; border-left: 4px solid #ffc107; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #ffc107; margin-bottom: 0.5rem;">🔐 Melhorias de Segurança</h4>
+                            <ul style="margin-left: 1.5rem; font-size: 0.9rem; line-height: 1.8;">
+                                <li>WAF com regras customizadas</li>
+                                <li>Secrets Manager para credenciais</li>
+                                <li>Criptografia end-to-end</li>
+                                <li>IAM Roles granulares</li>
+                                <li>Security Groups restritivos</li>
+                                <li>Private subnets para recursos</li>
+                                <li>CloudTrail para auditoria</li>
+                                <li>Session Manager (sem SSH)</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="background: white; padding: 1.2rem; border-radius: 8px; border-left: 4px solid #6f42c1; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                            <h4 style="color: #6f42c1; margin-bottom: 0.5rem;">🚀 DevOps & Automação</h4>
+                            <ul style="margin-left: 1.5rem; font-size: 0.9rem; line-height: 1.8;">
+                                <li><strong>Terraform</strong> - IaC versionado</li>
+                                <li>Repositório Git centralizado</li>
+                                <li>CI/CD com CodePipeline</li>
+                                <li>Build automático (CodeBuild)</li>
+                                <li>Deploy sem intervenção manual</li>
+                                <li>Rollback em 1 comando</li>
+                                <li>Ambientes replicáveis</li>
+                                <li>Reparos simplificados</li>
+                                <li>Documentação como código</li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div style="background: #e8eaf6; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; border-left: 4px solid #667eea;">
+                        <h4 style="color: #667eea; margin-bottom: 0.5rem;">💡 Destaque Técnico</h4>
+                        <p style="font-size: 1rem; line-height: 1.8; color: #333;">
+                            A utilização de <strong>Aurora Global Database</strong> combinada com <strong>VPC Peering</strong> 
+                            para replicação do EFS permitiu uma migração com Downtime de 15 min apenas feita em horario não comercial. A estratégia de manter 
+                            ambas as infraestruturas ativas durante 25 dias garantiu validação completa antes do cutover final, 
+                 eliminando riscos e permitindo rollback instantâneo caso necessário
+                        </p>
+                        <p style="font-size: 1rem; line-height: 1.8; color: #155724; margin-top: 1rem;">
+                            Toda a infraestrutura foi provisionada usando <strong>Terraform</strong> e versionada em repositório Git, 
+                            garantindo rastreabilidade completa, facilitando reparos e permitindo replicação da arquitetura em 
+                            minutos. O <strong>CI/CD pipeline</strong> automatiza deploys, reduzindo humanos e acelerando 
+                            entregas de novas funcionalidades.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>💵 Análise de Custos do Período de Transição</h2>
+                
+                <div style="background: linear-gradient(135deg, #ffc10715 0%, #ff980015 100%); padding: 2rem; border-radius: 10px; margin: 1.5rem 0; border: 2px solid #ffc107;">
+                    <h3 style="color: #856404; margin-bottom: 1.5rem;">📊 Custos Durante a Migração (25 dias com 2 arquiteturas)</h3>
+                    
+                    <div style="background: #fff3cd; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border-left: 4px solid #ffc107;">
+                        <p style="font-size: 1.05rem; line-height: 1.8; color: #856404;">
+                            <strong>⚠️ Importante:</strong> Durante o período de migração e validação, ambas as infraestruturas 
+                            (antiga em São Paulo e nova em Virgínia) permaneceram ativas simultaneamente por <strong>25 dias</strong>, 
+                            resultando em custos adicionais temporários. Este é um investimento necessário para garantir uma 
+                            migração segura e sem riscos.
+                        </p>
+                    </div>
+
+                    <table style="width: 100%; margin: 1.5rem 0;">
+                        <thead>
+                            <tr style="background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);">
+                                <th style="color: white; padding: 1rem;">Período</th>
+                                <th style="color: white; padding: 1rem;">Infraestrutura</th>
+                                <th style="color: white; padding: 1rem;">Dias Ativos</th>
+                                <th style="color: white; padding: 1rem;">Custo Diário</th>
+                                <th style="color: white; padding: 1rem;">Custo Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #fff3cd;">
+                                <td style="padding: 1rem;"><strong>Mês 1</strong></td>
+                                <td style="padding: 1rem;">Antiga (São Paulo)</td>
+                                <td style="padding: 1rem; text-align: center;">25 dias</td>
+                                <td style="padding: 1rem; text-align: right;">$21.33</td>
+                                <td style="padding: 1rem; text-align: right; font-weight: bold;">$533.33</td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td style="padding: 1rem;"><strong>Mês 1</strong></td>
+                                <td style="padding: 1rem;">Nova (Virgínia)</td>
+                                <td style="padding: 1rem; text-align: center;">30 dias</td>
+                                <td style="padding: 1rem; text-align: right;">$8.78</td>
+                                <td style="padding: 1rem; text-align: right; font-weight: bold;">$263.31</td>
+                            </tr>
+                            <tr style="background: #e8eaf6;">
+                                <td colspan="4" style="padding: 1rem;"><strong>CUSTO TOTAL MÊS 1 (Transição)</strong></td>
+                                <td style="padding: 1rem; text-align: right; font-weight: bold; font-size: 1.2rem; color: #856404;">$796.64</td>
+                            </tr>
+                            <tr style="background: #e7f3ff;">
+                                <td style="padding: 1rem;"><strong>Mês 2+</strong></td>
+                                <td style="padding: 1rem;">Nova (Virgínia) apenas</td>
+                                <td style="padding: 1rem; text-align: center;">30 dias</td>
+                                <td style="padding: 1rem; text-align: right;">$8.78</td>
+                                <td style="padding: 1rem; text-align: right; font-weight: bold; color: #28a745;">$263.31</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+                    <div style="background: #d1ecf1; padding: 1.5rem; border-radius: 8px; margin-top: 2rem; border-left: 4px solid #17a2b8;">
+                        <h4 style="color: #0c5460; margin-bottom: 1rem;">💡 Conclusão</h4>
+                        <p style="font-size: 1.05rem; line-height: 1.8; color: #0c5460;">
+                            Apesar do custo adicional de <strong>$533.33</strong> no primeiro mês devido à sobreposição das infraestruturas, 
+                            o investimento se paga em apenas <strong>1.4 meses</strong>. A partir do segundo mês, a economia mensal de 
+                            <strong>$376.69</strong> (R$ 2.071,80) torna o projeto altamente rentável, com economia acumulada de 
+                            <strong>$1,750.12</strong> (R$ 9.625,66) nos primeiros 6 meses.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+                <h2>💻 Detalhamento de Recursos e Custos</h2>
+                
+                <h3>1. Computação (EC2)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Tipo</th>
+                            <th>Quantidade</th>
+                            <th>Horas/Mês</th>
+                            <th>Custo/Hora</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EC2 t3.large (Running)</td>
+                            <td>2 vCPU, 8 GB RAM</td>
+                            <td>2</td>
+                            <td>730</td>
+                            <td>$0.0832</td>
+                            <td class="price">$121.47</td>
+                        </tr>
+                        <tr>
+                            <td>EBS Volumes (gp3)</td>
+                            <td>30 GB por instância</td>
+                            <td>2</td>
+                            <td>-</td>
+                            <td>$0.08/GB</td>
+                            <td class="price">$4.80</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5"><strong>Subtotal Computação</strong></td>
+                            <td class="price">$126.27</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+
+                <h3>2. Banco de Dados (RDS Aurora PostgreSQL)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Tipo</th>
+                            <th>Quantidade</th>
+                            <th>Horas/Mês</th>
+                            <th>Custo/Hora</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Aurora PostgreSQL</td>
+                            <td>db.t4g.medium</td>
+                            <td>1</td>
+                            <td>730</td>
+                            <td>$0.082</td>
+                            <td class="price">$59.86</td>
+                        </tr>
+                        <tr>
+                            <td>Storage (Aurora)</td>
+                            <td>1 GB alocado</td>
+                            <td>1</td>
+                            <td>-</td>
+                            <td>$0.10/GB</td>
+                            <td class="price">$0.10</td>
+                        </tr>
+                        <tr>
+                            <td>I/O Requests</td>
+                            <td>~1M requests/mês</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>$0.20/1M</td>
+                            <td class="price">$0.20</td>
+                        </tr>
+                        <tr>
+                            <td>Backup Storage</td>
+                            <td>Automated backups</td>
+                            <td>~5 GB</td>
+                            <td>-</td>
+                            <td>$0.021/GB</td>
+                            <td class="price">$0.11</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5"><strong>Subtotal Banco de Dados</strong></td>
+                            <td class="price">$60.27</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>3. Balanceamento de Carga (ALB)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Descrição</th>
+                            <th>Quantidade</th>
+                            <th>Horas/Mês</th>
+                            <th>Custo/Hora</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Application Load Balancer</td>
+                            <td>NC-ALB</td>
+                            <td>1</td>
+                            <td>730</td>
+                            <td>$0.0225</td>
+                            <td class="price">$16.43</td>
+                        </tr>
+                        <tr>
+                            <td>LCU (Load Balancer Capacity Units)</td>
+                            <td>Uso moderado</td>
+                            <td>~50 LCU-hours</td>
+                            <td>-</td>
+                            <td>$0.008/LCU</td>
+                            <td class="price">$0.40</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5"><strong>Subtotal Load Balancer</strong></td>
+                            <td class="price">$16.83</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>4. Storage (EFS)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Descrição</th>
+                            <th>Tamanho</th>
+                            <th>Tipo</th>
+                            <th>Custo/GB</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EFS Standard</td>
+                            <td>fs-03235ccd0f372dc5a</td>
+                            <td>0.93 GB</td>
+                            <td>Standard Storage</td>
+                            <td>$0.30/GB</td>
+                            <td class="price">$0.28</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5"><strong>Subtotal Storage</strong></td>
+                            <td class="price">$0.28</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>5. Rede e DNS</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Descrição</th>
+                            <th>Quantidade</th>
+                            <th>Tipo</th>
+                            <th>Custo</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Route53 Hosted Zone</td>
+                            <td>cloud.flog.br</td>
+                            <td>1</td>
+                            <td>Hosted Zone</td>
+                            <td>$0.50/zona</td>
+                            <td class="price">$0.50</td>
+                        </tr>
+                        <tr>
+                            <td>Route53 Queries</td>
+                            <td>DNS queries</td>
+                            <td>~1M queries</td>
+                            <td>Standard Queries</td>
+                            <td>$0.40/1M</td>
+                            <td class="price">$0.40</td>
+                        </tr>
+                        <tr>
+                            <td>Data Transfer OUT</td>
+                            <td>Internet egress</td>
+                            <td>~50 GB</td>
+                            <td>First 100GB</td>
+                            <td>$0.09/GB</td>
+                            <td class="price">$4.50</td>
+                        </tr>
+                        <tr>
+                            <td>NAT Gateway</td>
+                            <td>nat-05142e587048311eb</td>
+                            <td>1</td>
+                            <td>730 hours</td>
+                            <td>$0.045/hora</td>
+                            <td class="price">$32.85</td>
+                        </tr>
+                        <tr>
+                            <td>NAT Gateway Data Processing</td>
+                            <td>~100 GB processados</td>
+                            <td>100 GB</td>
+                            <td>Data Processing</td>
+                            <td>$0.045/GB</td>
+                            <td class="price">$4.50</td>
+                        </tr>
+                        <tr>
+                            <td>Elastic IP (NAT)</td>
+                            <td>54.164.248.0</td>
+                            <td>1</td>
+                            <td>Associado</td>
+                            <td>$0.00</td>
+                            <td class="price">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>VPC (Subnets, IGW, etc)</td>
+                            <td>Networking</td>
+                            <td>-</td>
+                            <td>Incluído</td>
+                            <td>$0.00</td>
+                            <td class="price">$0.00</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5"><strong>Subtotal Rede e DNS</strong></td>
+                            <td class="price">$42.75</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>6. Monitoramento e Logs</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Descrição</th>
+                            <th>Volume</th>
+                            <th>Tipo</th>
+                            <th>Custo</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CloudWatch Logs</td>
+                            <td>ECS, ALB, RDS logs</td>
+                            <td>~5 GB</td>
+                            <td>Ingestion</td>
+                            <td>$0.50/GB</td>
+                            <td class="price">$2.50</td>
+                        </tr>
+                        <tr>
+                            <td>CloudWatch Logs Storage</td>
+                            <td>7 days retention</td>
+                            <td>~10 GB</td>
+                            <td>Storage</td>
+                            <td>$0.03/GB</td>
+                            <td class="price">$0.30</td>
+                        </tr>
+                        <tr>
+                            <td>CloudWatch Metrics</td>
+                            <td>Custom metrics</td>
+                            <td>~50 metrics</td>
+                            <td>Standard</td>
+                            <td>Incluído</td>
+                            <td class="price">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>CloudWatch Alarms</td>
+                            <td>Monitoring alarms</td>
+                            <td>~10 alarms</td>
+                            <td>Standard</td>
+                            <td>$0.10/alarm</td>
+                            <td class="price">$1.00</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5"><strong>Subtotal Monitoramento</strong></td>
+                            <td class="price">$3.80</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>7. Segurança e Gerenciamento</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Descrição</th>
+                            <th>Quantidade</th>
+                            <th>Tipo</th>
+                            <th>Custo</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Secrets Manager</td>
+                            <td>DB credentials</td>
+                            <td>1 secret</td>
+                            <td>Secret storage</td>
+                            <td>$0.40/secret</td>
+                            <td class="price">$0.40</td>
+                        </tr>
+                        <tr>
+                            <td>Secrets Manager API</td>
+                            <td>API calls</td>
+                            <td>~10K calls</td>
+                            <td>API requests</td>
+                            <td>$0.05/10K</td>
+                            <td class="price">$0.05</td>
+                        </tr>
+                        <tr>
+                            <td>ACM Certificate</td>
+                            <td>SSL/TLS certificate</td>
+                            <td>1</td>
+                            <td>Public cert</td>
+                            <td>Gratuito</td>
+                            <td class="price">$0.00</td>
+                        </tr>
+                        <tr>
+                            <td>S3 (Terraform State)</td>
+                            <td>State files + backups</td>
+                            <td>~0.1 GB</td>
+                            <td>Standard</td>
+                            <td>$0.023/GB</td>
+                            <td class="price">$0.01</td>
+                        </tr>
+                        <tr>
+                            <td>S3 API Requests</td>
+                            <td>Pay per request</td>
+                            <td>~1K requests</td>
+                            <td>On-demand</td>
+                            <td>Mínimo</td>
+                            <td class="price">$0.05</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5"><strong>Subtotal Segurança</strong></td>
+                            <td class="price">$0.51</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>8. WAF (Web Application Firewall)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Descrição</th>
+                            <th>Quantidade</th>
+                            <th>Tipo</th>
+                            <th>Custo</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>WAF Web ACL</td>
+                            <td>Web Access Control List</td>
+                            <td>1</td>
+                            <td>Monthly fee</td>
+                            <td>$5.00/ACL</td>
+                            <td class="price">$5.00</td>
+                        </tr>
+                        <tr>
+                            <td>WAF Rules</td>
+                            <td>Security rules</td>
+                            <td>~5 rules</td>
+                            <td>Per rule</td>
+                            <td>$1.00/rule</td>
+                            <td class="price">$5.00</td>
+                        </tr>
+                        <tr>
+                            <td>WAF Requests</td>
+                            <td>HTTP/HTTPS requests</td>
+                            <td>~1M requests</td>
+                            <td>Per 1M</td>
+                            <td>$0.60/1M</td>
+                            <td class="price">$0.60</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5"><strong>Subtotal WAF</strong></td>
+                            <td class="price">$10.60</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>9. CI/CD Pipeline</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Recurso</th>
+                            <th>Descrição</th>
+                            <th>Quantidade</th>
+                            <th>Tipo</th>
+                            <th>Custo</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CodePipeline</td>
+                            <td>Pipeline ativo</td>
+                            <td>1</td>
+                            <td>Active pipeline</td>
+                            <td>$1.00/pipeline</td>
+                            <td class="price">$1.00</td>
+                        </tr>
+                        <tr>
+                            <td>CodeBuild</td>
+                            <td>Build minutes</td>
+                            <td>~100 min</td>
+                            <td>general1.small</td>
+                            <td>$0.005/min</td>
+                            <td class="price">$0.50</td>
+                        </tr>
+                        <tr>
+                            <td>ECR (Container Registry)</td>
+                            <td>Docker images storage</td>
+                            <td>~5 GB</td>
+                            <td>Storage</td>
+                            <td>$0.10/GB</td>
+                            <td class="price">$0.50</td>
+                        </tr>
+                        <tr>
+                            <td>ECR Data Transfer</td>
+                            <td>Image pulls</td>
+                            <td>~10 GB</td>
+                            <td>Within region</td>
+                            <td>Gratuito</td>
+                            <td class="price">$0.00</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="5"><strong>Subtotal CI/CD</strong></td>
+                            <td class="price">$2.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section>
+                <h2>💰 Resumo Financeiro</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Categoria</th>
+                            <th>Descrição</th>
+                            <th>Custo Mensal</th>
+                            <th>% do Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Computação (EC2)</strong></td>
+                            <td>2 instâncias t3.large + EBS</td>
+                            <td class="price">$126.27</td>
+                            <td>47.9%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Banco de Dados (RDS)</strong></td>
+                            <td>Aurora PostgreSQL</td>
+                            <td class="price">$60.27</td>
+                            <td>22.9%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Rede e DNS</strong></td>
+                            <td>Route53 + NAT Gateway + Transfer</td>
+                            <td class="price">$42.75</td>
+                            <td>16.2%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Load Balancer (ALB)</strong></td>
+                            <td>Application Load Balancer</td>
+                            <td class="price">$16.83</td>
+                            <td>6.4%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>WAF</strong></td>
+                            <td>Web Application Firewall</td>
+                            <td class="price">$10.60</td>
+                            <td>4.0%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Monitoramento</strong></td>
+                            <td>CloudWatch Logs + Metrics</td>
+                            <td class="price">$3.80</td>
+                            <td>1.4%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CI/CD</strong></td>
+                            <td>CodePipeline + CodeBuild + ECR</td>
+                            <td class="price">$2.00</td>
+                            <td>0.8%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Segurança</strong></td>
+                            <td>Secrets Manager + S3</td>
+                            <td class="price">$0.51</td>
+                            <td>0.2%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Storage (EFS)</strong></td>
+                            <td>Elastic File System</td>
+                            <td class="price">$0.28</td>
+                            <td>0.1%</td>
+                        </tr>
+                        <tr class="total-final">
+                            <td colspan="2"><strong>💵 CUSTO TOTAL MENSAL</strong></td>
+                            <td><strong>$263.31</strong></td>
+                            <td><strong>100%</strong></td>
+                        </tr>
+                        <tr style="background: #e7f3ff;">
+                            <td colspan="2"><strong>📅 CUSTO ANUAL ESTIMADO</strong></td>
+                            <td colspan="2"><strong class="price" style="font-size: 1.2rem;">$3,159.72</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="chart-container">
+                    <h3>📊 Distribuição de Custos</h3>
+                    <div style="display: flex; align-items: center; margin: 1rem 0;">
+                        <div style="flex: 1;">
+                            <div style="background: #667eea; height: 30px; width: 47.9%; display: inline-block; border-radius: 5px;"></div>
+                            <span style="margin-left: 10px;">EC2: 47.9% ($126.27)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 1rem 0;">
+                        <div style="flex: 1;">
+                            <div style="background: #764ba2; height: 30px; width: 22.9%; display: inline-block; border-radius: 5px;"></div>
+                            <span style="margin-left: 10px;">RDS: 22.9% ($60.27)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 1rem 0;">
+                        <div style="flex: 1;">
+                            <div style="background: #28a745; height: 30px; width: 16.2%; display: inline-block; border-radius: 5px;"></div>
+                            <span style="margin-left: 10px;">Rede/NAT: 16.2% ($42.75)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 1rem 0;">
+                        <div style="flex: 1;">
+                            <div style="background: #ffc107; height: 30px; width: 6.4%; display: inline-block; border-radius: 5px;"></div>
+                            <span style="margin-left: 10px;">ALB: 6.4% ($16.83)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 1rem 0;">
+                        <div style="flex: 1;">
+                            <div style="background: #dc3545; height: 30px; width: 4.0%; display: inline-block; border-radius: 5px;"></div>
+                            <span style="margin-left: 10px;">WAF: 4.0% ($10.60)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 1rem 0;">
+                        <div style="flex: 1;">
+                            <div style="background: #17a2b8; height: 30px; width: 1.4%; display: inline-block; border-radius: 5px;"></div>
+                            <span style="margin-left: 10px;">Monitoramento: 1.4% ($3.80)</span>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; margin: 1rem 0;">
+                        <div style="flex: 1;">
+                            <div style="background: #6c757d; height: 30px; width: 1.1%; display: inline-block; border-radius: 5px;"></div>
+                            <span style="margin-left: 10px;">Outros: 1.1% ($2.79)</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>💡 Oportunidades de Otimização</h2>
+                
+                <div class="highlight-box">
+                    <h3>🎯 Recomendações para Redução de Custos</h3>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Otimização</th>
+                                <th>Descrição</th>
+                                <th>Economia Mensal</th>
+                                <th>Economia Anual</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>1. Reserved Instances (EC2)</strong></td>
+                                <td>Compromisso de 1 ano para instâncias EC2</td>
+                                <td class="savings">-$40.28 (30%)</td>
+                                <td class="savings">-$483.36</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2. Reserved Instances (RDS)</strong></td>
+                                <td>Compromisso de 1 ano para RDS Aurora</td>
+                                <td class="savings">-$18.08 (30%)</td>
+                                <td class="savings">-$216.96</td>
+                            </tr>
+                            <tr>
+                                <td><strong>3. EFS Infrequent Access</strong></td>
+                                <td>Mover dados antigos para IA storage class</td>
+                                <td class="savings">-$0.15 (50%)</td>
+                                <td class="savings">-$1.80</td>
+                            </tr>
+                            <tr>
+                                <td><strong>4. CloudWatch Logs Retention</strong></td>
+                                <td>Reduzir retenção de 7 para 3 dias</td>
+                                <td class="savings">-$0.15</td>
+                                <td class="savings">-$1.80</td>
+                            </tr>
+                            <tr>
+                                <td><strong>5. Savings Plans</strong></td>
+                                <td>Compute Savings Plans (flexível)</td>
+                                <td class="savings">-$32.00 (15%)</td>
+                                <td class="savings">-$384.00</td>
+                            </tr>
+                            <tr class="total-row" style="background: #e8eaf6 !important;">
+                                <td colspan="2"><strong>💰 ECONOMIA TOTAL POTENCIAL</strong></td>
+                                <td class="savings"><strong>-$90.51/mês</strong></td>
+                                <td class="savings"><strong>-$1,086.12/ano</strong></td>
+                            </tr>
+                            <tr class="total-final">
+                                <td colspan="2"><strong>🎉 NOVO CUSTO MENSAL OTIMIZADO</strong></td>
+                                <td colspan="2"><strong>$172.80</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section>
+                <h2>📈 Projeção de Crescimento</h2>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cenário</th>
+                            <th>Descrição</th>
+                            <th>Recursos Adicionais</th>
+                            <th>Custo Mensal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge badge-success">Atual</span></td>
+                            <td>2 EC2 t3.large + RDS t4g.medium</td>
+                            <td>-</td>
+                            <td class="price">$263.31</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-info">Crescimento +50%</span></td>
+                            <td>3 EC2 t3.large + RDS t4g.large</td>
+                            <td>+1 EC2, upgrade RDS</td>
+                            <td class="price">$362.50</td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-warning">Crescimento +100%</span></td>
+                            <td>4 EC2 t3.xlarge + RDS r6g.large</td>
+                            <td>+2 EC2 (upgrade), RDS upgrade</td>
+                            <td class="price">$548.80</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            
+
+            <section>
+                <h2>📋 Termos e Condições</h2>
+                
+                <div style="background: #fff3cd; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #ffc107; margin-top: 1rem;">
+                    <h4 style="color: #856404;">⚠️ Observações Importantes</h4>
+                    <ul style="margin-left: 2rem; margin-top: 1rem; color: #856404;">
+                        <li><strong>Custos Variáveis:</strong> Os valores apresentados são estimativas baseadas no uso atual. Custos reais podem variar conforme o uso (tráfego, storage, etc).</li>
+                        <li><strong>Data Transfer:</strong> Custos de transferência de dados podem aumentar com maior tráfego de usuários.</li>
+                        <li><strong>Região:</strong> Preços baseados na região us-east-1. Outras regiões podem ter preços diferentes.</li>
+                        <li><strong>Taxas AWS:</strong> Todos os preços são em USD e não incluem impostos locais.</li>
+                        <li><strong>Validade:</strong> Esta proposta é válida por 30 dias a partir da data de emissão.</li>
+                    </ul>
+                </div>
+
+                <div style="background: #d4edda; padding: 1.5rem; border-radius: 10px; border-left: 4px solid #28a745; margin-top: 1.5rem;">
+                    <h4 style="color: #155724;">✅ Incluído no Serviço</h4>
+                    <ul style="margin-left: 2rem; margin-top: 1rem; color: #155724;">
+                        <li>Infraestrutura gerenciada via Terraform (Infrastructure as Code)</li>
+                        <li>Alta disponibilidade com 2 instâncias EC2 em diferentes AZs</li>
+                        <li>Backups automáticos do banco de dados (7 dias de retenção)</li>
+                        <li>Monitoramento 24/7 via CloudWatch</li>
+                        <li>SSL/TLS certificate gratuito via ACM</li>
+                        <li>Documentação completa da infraestrutura</li>
+                        <li>Scripts de deployment e rollback</li>
+                    </ul>
+                </div>
+            </section>
+
+            
+        </main>
+
+        <footer>
+            <h3 style="margin-bottom: 1rem;">💰 Proposta Orçamentária - Nextcloud AWS</h3>
+            <p><strong>Custo Mensal Otimizado:</strong> $172.80 (R$ 950,40)</p>
+            <p><strong>Custo Anual Otimizado:</strong> $2.073,60 (R$ 11.404,80)</p>
+            <p><strong>Economia vs Infraestrutura Antiga:</strong> $5.606,40/ano (R$ 30.835,20/ano - 73.0% de redução)</p>
+            <p><strong>Economia com Otimizações:</strong> $1.086,12/ano adicional (R$ 5.973,66/ano)</p>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem; opacity: 0.85;">
+                <em>Cotação: US$ 1,00 = R$ 5,50</em>
+            </p>
+            <hr style="margin: 1.5rem 0; opacity: 0.3;">
+            <p style="margin-top: 1.5rem; font-size: 0.95rem;">
+                <strong>Preparado para:</strong> Henrylle Maia<br>
+                <strong>Projeto:</strong> Nextcloud Cloud<br>
+                <strong>Data:</strong> 26 de Novembro de 2025<br>
+                <strong>Região:</strong> AWS us-east-1 (Norte da Virgínia)
+            </p>
+            <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8;">
+                Todos os preços são estimativas baseadas nos preços públicos da AWS em novembro de 2025.<br>
+                Os custos reais podem variar conforme o uso efetivo dos recursos.
+            </p>
+            
+        </footer>
+    </div>
+
+    <script>
+        // Print-friendly
+        window.addEventListener('beforeprint', () => {
+            document.body.style.background = 'white';
+        });
+        
+        window.addEventListener('afterprint', () => {
+            document.body.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        });
+    </script>
+</body>
+</html>
