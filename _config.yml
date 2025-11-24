@@ -1,0 +1,16 @@
+# GitHub Pages Configuration
+# Força o uso de index.html como página inicial
+
+# Desabilita o processamento Jekyll do README
+include:
+  - index.html
+
+# Define index.html como página inicial
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: none
+
+# Desabilita temas Jekyll
+theme: null
