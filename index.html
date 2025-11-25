@@ -201,8 +201,8 @@
             <ul class="nav-links">
                 <li><a href="#payback">💹 Payback & ROI</a></li>
                 <li><a href="#migracao">🌐 Migração</a></li>
+                <li><a href="#diagrama-arquitetura">📐 Diagrama</a></li>
                 <li><a href="#processo-tecnico">🔧 Processo Técnico</a></li>
-                <li><a href="#custos-mes1">💵 Custos Mês 1</a></li>
                 <li><a href="#resumo-financeiro">💰 Resumo</a></li>
                 <li><a href="#otimizacao">💡 Otimização</a></li>
             </ul>
@@ -443,16 +443,12 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-
-                    
-
-                    
-                    
-                    <div style="background: white; padding: 1.5rem; border-radius: 8px; margin-top: 1.5rem; text-align: center;">
-                        <img src="Screenshot from 2025-11-04 15-23-12.png" alt="Arquitetura Global Database" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); margin-top: 1rem;">
                         
+                        <div style="margin-top: 1.5rem; text-align: center;">
+                            <img src="Screenshot from 2025-11-04 15-23-12.png" alt="Arquitetura Global Database" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                        </div>
                     </div>
+
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-top: 1.5rem;">
                         <div style="background: white; padding: 1.2rem; border-radius: 8px; border-left: 4px solid #667eea;">
                             <h4 style="color: #667eea; margin-bottom: 0.5rem;">✅ Vantagens</h4>
@@ -483,6 +479,16 @@
                                 
                             </ul>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="diagrama-arquitetura">
+                <h2>📐 Diagrama de Arquitetura Global Database</h2>
+                
+                <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 2rem; border-radius: 10px; margin: 1.5rem 0; border: 2px solid #667eea;">
+                    <div style="text-align: center;">
+                        <img src="Screenshot from 2025-11-24 23-05-14.png" alt="Diagrama de Arquitetura Global Database" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
                     </div>
                 </div>
             </section>
@@ -524,7 +530,7 @@
                                 • Criação de novo <strong>EFS em us-east-1</strong> (Virgínia)<br>
                                 • Configuração de <strong>VPC Peering</strong> entre sa-east-1 e us-east-1<br>
                                 • <strong>Replicação inicial</strong> dos dados (~931 MB) via rsync através do VPC Peering<br>
-                                • <strong>Tempo de transferência:</strong> ~2-3 minutos para 1 GB via VPC Peering<br>
+                                • <strong>Tempo de transferência:</strong> 30 minutos para via VPC Peering<br>
                                 • Velocidade média: ~150 Mbps entre regiões AWS<br>
                                 • Sincronização contínua durante o período de transição
                             </p>
