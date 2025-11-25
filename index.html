@@ -139,8 +139,10 @@
             margin: 0 auto;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             padding: 0.8rem 2rem;
+            flex-direction: column;
+            gap: 0.5rem;
         }
         .nav-brand {
             color: white;
@@ -155,6 +157,7 @@
             margin: 0;
             padding: 0;
             flex-wrap: wrap;
+            justify-content: center;
         }
         .nav-links a {
             color: white;
@@ -180,20 +183,12 @@
             .nav-menu { display: none; }
         }
         @media (max-width: 768px) {
-            .nav-container {
-                flex-direction: column;
-                padding: 0.5rem 1rem;
-            }
-            .nav-links {
-                margin-top: 0.5rem;
-                justify-content: center;
-            }
             .nav-links a {
                 font-size: 0.8rem;
                 padding: 0.4rem 0.6rem;
             }
             body {
-                padding-top: 120px;
+                padding-top: 130px;
             }
         }
     </style>
@@ -204,8 +199,6 @@
         <div class="nav-container">
             <a href="#top" class="nav-brand">💰 Proposta Nextcloud</a>
             <ul class="nav-links">
-                <li><a href="#visao-geral">📋 Visão Geral</a></li>
-                <li><a href="#resumo">🎯 Resumo</a></li>
                 <li><a href="#payback">💹 Payback & ROI</a></li>
                 <li><a href="#migracao">🌐 Migração</a></li>
                 <li><a href="#processo-tecnico">🔧 Processo Técnico</a></li>
