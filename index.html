@@ -203,7 +203,6 @@
                 <li><a href="#migracao">🌐 Migração</a></li>
                 <li><a href="#processo-tecnico">🔧 Processo Técnico</a></li>
                 <li><a href="#custos-mes1">💵 Custos Mês 1</a></li>
-                <li><a href="#detalhamento">💻 Detalhamento</a></li>
                 <li><a href="#resumo-financeiro">💰 Resumo</a></li>
                 <li><a href="#otimizacao">💡 Otimização</a></li>
             </ul>
@@ -525,6 +524,8 @@
                                 • Criação de novo <strong>EFS em us-east-1</strong> (Virgínia)<br>
                                 • Configuração de <strong>VPC Peering</strong> entre sa-east-1 e us-east-1<br>
                                 • <strong>Replicação inicial</strong> dos dados (~931 MB) via rsync através do VPC Peering<br>
+                                • <strong>Tempo de transferência:</strong> ~2-3 minutos para 1 GB via VPC Peering<br>
+                                • Velocidade média: ~150 Mbps entre regiões AWS<br>
                                 • Sincronização contínua durante o período de transição
                             </p>
                         </div>
