@@ -362,7 +362,7 @@
                                 <td>
                                     <div style="line-height: 2.2;">
                                         <span class="badge badge-success">✅</span> Point-in-time recovery<br>
-                                        <span class="badge badge-success">✅</span> Manutenção<br>
+                                        <span class="badge badge-success">✅</span> Escalabilidade<br>
                                         <span class="badge badge-success">✅</span> Session Manager<br>
                                         <span class="badge badge-success">✅</span> Auto Scaling ativo
                                     </div>
@@ -529,7 +529,7 @@
                                 • Migração dos dados da EC2 para o EFS em São Paulo<br>
                                 • Criação de novo <strong>EFS em us-east-1</strong> (Virgínia)<br>
                                 • Configuração de <strong>VPC Peering</strong> entre sa-east-1 e us-east-1<br>
-                                • <strong>Replicação inicial</strong> dos dados (~931 MB) via rsync através do VPC Peering<br>
+                                • <strong>Replicação inicial</strong> dos dados (~931 MB) via EFS Replication através do VPC Peering<br>
                                 • <strong>Tempo de transferência:</strong> 30 minutos para via VPC Peering<br>
                                 • Velocidade média: ~150 Mbps entre regiões AWS<br>
                                 • Sincronização contínua durante o período de transição
@@ -564,6 +564,7 @@
                                 <em>Executado após o ECS estar operacional</em><br><br>
                                 • Setup de <strong>Aurora Global Database</strong> com região primária em sa-east-1<br>
                                 • Adição de us-east-1 como região secundária com replicação automática<br>
+                                • <strong>Switchover</strong> do Aurora promovendo us-east-1 como região primária<br>
                                 • Latência de replicação &lt;1 segundo garantida<br>
                                 • Validação de sincronização dos dados entre regiões<br>
                                 • Testes de failover e recuperação
@@ -601,7 +602,7 @@
                                 • Integração com GitHub para trigger automático em commits<br>
                                 • Stages: Source → Build → Deploy → Validation<br>
                                 • Rollback automático em caso de falha nos health checks<br>
-                                • Notificações via SNS para status do pipeline
+
                             </p>
                         </div>
 
@@ -611,9 +612,8 @@
                                 • Toda infraestrutura versionada em <strong>repositório Git</strong><br>
                                 • Código <strong>Terraform</strong> modularizado por componente (VPC, ECS, RDS, ALB, etc)<br>
                                 • State file armazenado no S3 com lock no DynamoDB<br>
-                                • Ambientes separados (dev, staging, production)<br>
                                 • Facilita replicação, rollback e disaster recovery<br>
-                                • Documentação automática da infraestrutura<br>
+                                • Documentação da infraestrutura<br>
                                 • Reparos e atualizações simplificados via código
                             </p>
                         </div>
@@ -622,11 +622,9 @@
                             <h5 style="color: #fd7e14; margin-bottom: 0.5rem;">🔟 Cutover Final</h5>
                             <p style="font-size: 0.95rem; line-height: 1.6; color: #333;">
                                 • Sincronização final dos dados do EFS<br>
-                                • <strong>Switchover</strong> do Aurora promovendo us-east-1 como região primária<br>
                                 • Atualização dos registros DNS no <strong>Route53</strong><br>
                                 • Validação de conectividade e funcionalidades<br>
-                                • Testes end-to-end da aplicação<br>
-                                • Monitoramento intensivo pós-migração (24h)
+                                • Monitoramento intensivo pós-migração
                             </p>
                         </div>
                     </div>
